@@ -26,10 +26,9 @@
 
 (defn -main
   []
-  (with-open [rdr (clojure.java.io/reader "02.input")]
-    (let [l (map #(parse %) (line-seq rdr))]
-    (println l)
+  (let [l (map #(parse %) (clojure.string/split (slurp "02.input") #"\n"))]
+    ;(println l)
     (println (solve1 l))
     (println (solve2 l))
-  )))
+  ))
 
