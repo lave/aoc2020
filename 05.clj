@@ -19,7 +19,7 @@
 
 (defn -main
   []
-  (let [ids (map #(parse %) (clojure.string/split (slurp "05.input") #"\n"))]
+  (let [ids (map parse (clojure.string/split (slurp "05.input") #"\n"))]
     ;(println ids)
     (println (solve1 ids))
     (println (solve2 ids))

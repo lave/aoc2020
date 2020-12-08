@@ -25,7 +25,7 @@
 
 (defn -main
   []
-  (let [l (map #(parse %) (clojure.string/split (slurp "03.input") #"\n"))]
+  (let [l (map parse (clojure.string/split (slurp "03.input") #"\n"))]
     ;(println l)
     (println (solve1 l))
     (println (solve2 l))

@@ -4,7 +4,7 @@
   (every? #(not (nil? (get p %))) '("byr" "iyr" "eyr" "hgt" "hcl" "ecl" "pid")))
 
 (defn solve1 [l]
-  (count (filter #(is-valid1 %) l)))
+  (count (filter is-valid1 l)))
 
 (defn is-num [l h s]
   (let [n (Integer/parseInt s)]
@@ -36,7 +36,7 @@
       )))
 
 (defn solve2 [l]
-  (count (filter #(is-valid2 %) l)))
+  (count (filter is-valid2 l)))
 
 (defn parse [line]
   (let [pairs (clojure.string/split (clojure.string/replace line #"\n" " ") #" ")]
@@ -44,7 +44,7 @@
 
 (defn -main
   []
-  (let [l (map #(parse %) (clojure.string/split (slurp "04.input") #"\n\n"))]
+  (let [l (map parse (clojure.string/split (slurp "04.input") #"\n\n"))]
     ;(println l)
     (println (solve1 l))
     (println (solve2 l))

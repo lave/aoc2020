@@ -5,7 +5,7 @@
     (and (>= n l) (<= n h))))
 
 (defn solve1 [l]
-  (count (filter #(is-valid1 %) l)))
+  (count (filter is-valid1 l)))
 
 (defn is-valid2 [[l h c s]]
   (let [
@@ -15,7 +15,7 @@
     (= 1 (+ (if cl 1 0) (if ch 1 0)))))
 
 (defn solve2 [l]
-  (count (filter #(is-valid2 %) l)))
+  (count (filter is-valid2 l)))
 
 (defn nums [l]
   (map #(Integer/parseInt %) (clojure.string/split l #"\t")))
@@ -26,7 +26,7 @@
 
 (defn -main
   []
-  (let [l (map #(parse %) (clojure.string/split (slurp "02.input") #"\n"))]
+  (let [l (map parse (clojure.string/split (slurp "02.input") #"\n"))]
     ;(println l)
     (println (solve1 l))
     (println (solve2 l))

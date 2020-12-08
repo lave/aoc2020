@@ -6,21 +6,23 @@
     execution (iterate
       (fn [[[ip acc _ :as state] visited]]
         ;(println "ip = " ip ", acc = " acc ", visited = " visited)
-        (if (>= ip (count prg))
-          (list [ip acc (= ip (count prg))] nil)
-          (let [
-             [op arg] (nth prg ip)
-             [ip_ acc_] (case op
-               "acc" [(+ ip 1) (+ acc arg)]
-               "jmp" [(+ ip arg) acc]
-               "nop" [(+ ip 1) acc])
-             ]
-           (if (contains? visited ip)
-             (list [ip acc false] nil)
-             (list [ip_ acc_ nil] (conj visited ip)))))
+        (if (or (< ip 0) (> ip (count prg)))
+          (list [ip acc false] visited)   ; exit because of bad jump
+          (if (= ip (count prg))
+            (list [ip acc true] visited)  ; normal exit
+            (let [
+               [op arg] (nth prg ip)
+               [ip_ acc_] (case op
+                 "acc" [(+ ip 1) (+ acc arg)]
+                 "jmp" [(+ ip arg) acc]
+                 "nop" [(+ ip 1) acc])
+               ]
+             (if (contains? visited ip)
+               (list [ip acc false] visited)  ; exit because of infinite loop
+               (list [ip_ acc_ nil] (conj visited ip)))))) ; continue execution
       )
       (list [0 0 nil] #{}))
-    [state] (first (filter #(nil? (nth % 1)) execution))
+    [state] (first (filter #(not (nil? (nth (first %) 2))) execution))
     ]
     state))
 
@@ -40,7 +42,7 @@
 
 (defn solve2 [prg]
   (let [prgs (filter #(not (nil? %)) (map #(fix prg %) (range 0 (count prg))))
-        results (map #(run %) prgs)
+        results (map run prgs)
         state (first (filter #(= true (nth % 2)) results))]
     (nth state 1)))
 
@@ -51,7 +53,7 @@
 
 (defn -main
   []
-  (let [prg (mapv #(parse %) (clojure.string/split (slurp "08.input") #"\n"))]
+  (let [prg (mapv parse (clojure.string/split (slurp "08.input") #"\n"))]
     ;(println prg)
     (println (solve1 prg))
     (println (solve2 prg))

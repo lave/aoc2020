@@ -43,7 +43,7 @@
 
 (defn -main
   []
-  (let [rules (map #(parse %) (clojure.string/split (slurp "07.input") #"\n"))]
+  (let [rules (map parse (clojure.string/split (slurp "07.input") #"\n"))]
     ;(println rules)
     (println (solve1 rules "shiny gold"))
     (println (solve2 rules "shiny gold"))
